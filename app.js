@@ -140,6 +140,16 @@ app.patch("/update/:productTitle",function(req, res){
     )
 })
 
+app.delete("/delete/:productTitle", function(req, res){
+    Product.deleteOne({productName: req.params.productTitle}, function(err){
+        if(!err){
+            res.send("Successfully deleted the Product");
+        }else{
+            res.send(err);
+        }
+    })
+})
+
 app.listen(3000, function(){
     console.log("Server is running on port 3000");
 })
