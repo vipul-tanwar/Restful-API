@@ -216,6 +216,16 @@ app.patch("/update/category/:categoryTitle",function(req, res){
     )
 })
 
+app.delete("/delete/category/:categoryTitle", function(req, res){
+    Category.deleteOne({categoryName: req.params.categoryTitle}, function(err){
+        if(!err){
+            res.send("Successfully deleted the Category");
+        }else{
+            res.send(err);
+        }
+    })
+})
+
 
 
 app.listen(3000, function(){
