@@ -164,6 +164,16 @@ app.get("/readall/category", function(req, res){
     })
 })
 
+app.get("/read/category/:categoryTitle", function(req, res){
+    Category.findOne({categoryName: req.params.categoryTitle}, function(err, foundProduct){
+        if(foundProduct){
+            res.send(foundProduct);
+        }else{
+            res.send("No Category Found !");
+        }
+    })
+})
+
 
 
 
