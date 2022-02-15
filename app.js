@@ -104,6 +104,28 @@ app.post("/create", function(req, res){
     }
 })
 
+app.put("/update/:productTitle", function(req, res){
+    Product.updateOne(
+        {productName: req.params.productTitle},
+        {
+            productName : req.body.productName,		
+            qtyPerUnit : req.body.qtyPerUnit,		
+            unitPrice : req.body.unitPrice,			
+            unitInStock : req.body.unitInStock,		
+            discontinued : req.body.discontinued,
+            categoryId: req.body.categoryId
+        },
+        {ovewrite: true},
+        function(err){
+            if(!err){
+                res.send("Successfully updated Product");
+            }else{
+                res.send(err);
+            }
+        }
+    )
+})
+
 app.listen(3000, function(){
     console.log("Server is running on port 3000");
 })
