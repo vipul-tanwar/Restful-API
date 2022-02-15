@@ -185,8 +185,23 @@ app.post('/create/category/:categoryTitle', function(req, res){
             res.send(err);
         }  
     })
-
 })
+
+app.put("/update/category/:categoryTitle", function(req, res){
+    Category.updateOne(
+        {categoryName: req.params.categoryTitle},
+        {categoryName: req.body.categoryName},
+        {ovewrite: true},
+        function(err){
+            if(!err){
+                res.send("Successfully updated Category");
+            }else{
+                res.send(err);
+            }
+        }
+    )
+})
+
 
 
 
