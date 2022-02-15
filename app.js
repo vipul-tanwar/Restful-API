@@ -47,6 +47,63 @@ app.get("/read/:productTitle", function(req, res){
     })
 })
 
+app.post("/create", function(req, res){
+
+    const newCategory = new Category({
+        categoryName : req.body.categoryName,
+     })
+  
+    const newProduct = new Product({
+        productName : req.body.productName,		
+        qtyPerUnit : req.body.qtyPerUnit,		
+        unitPrice : req.body.unitPrice,			
+        unitInStock : req.body.unitInStock,		
+        discontinued : req.body.discontinued,
+    })
+
+    var categoryN = req.body.categoryName;
+
+    if(categoryN){
+        Category.findOne({categoryName: categoryN}, function(err, foundPro){
+            if(foundPro){
+                //If Category already exist
+                //console.log('Category already exist');
+                newProduct.categoryId.push(foundPro);
+                newProduct.save(function(err){
+                    if(!err){
+                        res.send("Succesfully created new Product with existing Category");
+                    }else{
+                        res.send(err);
+                    }  
+                })
+            }else{
+                //If Category n't exist
+                //console.log('Categry Not Found');
+                newProduct.categoryId.push(newCategory);
+                newCategory.save();
+                newProduct.save(function(err){
+                    if(!err){
+                        res.send("Succesfully created a new Product with new Category");
+                    }else{
+                        res.send(err);
+                    }  
+                })
+            }
+        })
+    }
+    else{
+        //If category not mentioned
+        //console.log("Category not mentioned")
+        newProduct.save(function(err){
+            if(!err){
+                res.send("Succesfully created new Product");
+            }else{
+                res.send(err);
+            }  
+        })
+    }
+})
+
 app.listen(3000, function(){
     console.log("Server is running on port 3000");
 })
