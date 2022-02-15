@@ -174,6 +174,19 @@ app.get("/read/category/:categoryTitle", function(req, res){
     })
 })
 
+app.post('/create/category/:categoryTitle', function(req, res){
+    const newCategory = new Category({
+        categoryName : req.params.categoryTitle,
+    })
+    newCategory.save(function(err){
+        if(!err){
+            res.send("Succesfully created new category");
+        }else{
+            res.send(err);
+        }  
+    })
+
+})
 
 
 
