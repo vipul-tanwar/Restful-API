@@ -28,6 +28,16 @@ const productSchema = new mongoose.Schema({
 const Category = mongoose.model("category", categorySchema)
 const Product = mongoose.model("product", productSchema)
 
+app.get("/read/:productTitle", function(req, res){
+    Product.findOne({productName: req.params.productTitle}).populate('categoryId').exec(function(err, foundProduct){
+        if(foundProduct){
+            res.send(foundProduct);
+        }else{
+            res.send("No Product Found !");
+        }
+    })
+})
+
 app.listen(3000, function(){
     console.log("Server is running on port 3000");
 })
