@@ -28,6 +28,15 @@ const productSchema = new mongoose.Schema({
 const Category = mongoose.model("category", categorySchema)
 const Product = mongoose.model("product", productSchema)
 
+app.get('/readall', function(req, res){
+    Product.find().populate('categoryId').exec(function(err, foundProducts){
+        if(!err){
+            res.send(foundProducts);
+        }else{
+            res.send(err);            }
+    })
+})
+
 app.get("/read/:productTitle", function(req, res){
     Product.findOne({productName: req.params.productTitle}).populate('categoryId').exec(function(err, foundProduct){
         if(foundProduct){
