@@ -28,7 +28,10 @@ const productSchema = new mongoose.Schema({
 const Category = mongoose.model("category", categorySchema)
 const Product = mongoose.model("product", productSchema)
 
-app.get('/readall', function(req, res){
+
+
+//Product Routes
+app.get("/readall", function(req, res){
     Product.find().populate('categoryId').exec(function(err, foundProducts){
         if(!err){
             res.send(foundProducts);
@@ -149,6 +152,21 @@ app.delete("/delete/:productTitle", function(req, res){
         }
     })
 })
+
+//Category Routes
+app.get("/readall/category", function(req, res){
+    Category.find(function(err, foundCategory){
+        if(!err){
+            res.send(foundCategory);
+        }else{
+            res.send(err);
+        }
+    })
+})
+
+
+
+
 
 app.listen(3000, function(){
     console.log("Server is running on port 3000");
