@@ -202,7 +202,19 @@ app.put("/update/category/:categoryTitle", function(req, res){
     )
 })
 
-
+app.patch("/update/category/:categoryTitle",function(req, res){
+    Category.findOneAndUpdate(
+        {categoryName: req.params.categoryTitle},
+        {$set: req.body},
+        function(err){
+            if(!err){
+                res.send("Succesfully updated Category");
+            }else{
+                res.send(err);
+            }
+        }
+    )
+})
 
 
 
