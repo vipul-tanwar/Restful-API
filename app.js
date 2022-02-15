@@ -31,6 +31,7 @@ const Product = mongoose.model("product", productSchema)
 
 
 //Product Routes
+// Read all products 
 app.get("/readall", function(req, res){
     Product.find().populate('categoryId').exec(function(err, foundProducts){
         if(!err){
@@ -40,6 +41,7 @@ app.get("/readall", function(req, res){
     })
 })
 
+//Read product
 app.get("/read/:productTitle", function(req, res){
     Product.findOne({productName: req.params.productTitle}).populate('categoryId').exec(function(err, foundProduct){
         if(foundProduct){
@@ -50,6 +52,7 @@ app.get("/read/:productTitle", function(req, res){
     })
 })
 
+//Post product
 app.post("/create", function(req, res){
 
     const newCategory = new Category({
@@ -107,6 +110,7 @@ app.post("/create", function(req, res){
     }
 })
 
+//Update product by PUT request
 app.put("/update/:productTitle", function(req, res){
     Product.updateOne(
         {productName: req.params.productTitle},
@@ -129,6 +133,7 @@ app.put("/update/:productTitle", function(req, res){
     )
 })
 
+//Update product by PATCH request
 app.patch("/update/:productTitle",function(req, res){
     Product.findOneAndUpdate(
         {productName: req.params.productTitle},
@@ -143,6 +148,7 @@ app.patch("/update/:productTitle",function(req, res){
     )
 })
 
+//Delete product by product name
 app.delete("/delete/:productTitle", function(req, res){
     Product.deleteOne({productName: req.params.productTitle}, function(err){
         if(!err){
@@ -154,6 +160,8 @@ app.delete("/delete/:productTitle", function(req, res){
 })
 
 //Category Routes
+
+//Read all category
 app.get("/readall/category", function(req, res){
     Category.find(function(err, foundCategory){
         if(!err){
@@ -164,6 +172,7 @@ app.get("/readall/category", function(req, res){
     })
 })
 
+//Read category
 app.get("/read/category/:categoryTitle", function(req, res){
     Category.findOne({categoryName: req.params.categoryTitle}, function(err, foundProduct){
         if(foundProduct){
@@ -174,6 +183,7 @@ app.get("/read/category/:categoryTitle", function(req, res){
     })
 })
 
+//Post category
 app.post('/create/category/:categoryTitle', function(req, res){
     const newCategory = new Category({
         categoryName : req.params.categoryTitle,
@@ -187,6 +197,7 @@ app.post('/create/category/:categoryTitle', function(req, res){
     })
 })
 
+//Update category by PUT request
 app.put("/update/category/:categoryTitle", function(req, res){
     Category.updateOne(
         {categoryName: req.params.categoryTitle},
@@ -202,6 +213,7 @@ app.put("/update/category/:categoryTitle", function(req, res){
     )
 })
 
+//Update category by PATCH request
 app.patch("/update/category/:categoryTitle",function(req, res){
     Category.findOneAndUpdate(
         {categoryName: req.params.categoryTitle},
@@ -216,6 +228,7 @@ app.patch("/update/category/:categoryTitle",function(req, res){
     )
 })
 
+//Delete categoy by category name
 app.delete("/delete/category/:categoryTitle", function(req, res){
     Category.deleteOne({categoryName: req.params.categoryTitle}, function(err){
         if(!err){
@@ -225,8 +238,6 @@ app.delete("/delete/category/:categoryTitle", function(req, res){
         }
     })
 })
-
-
 
 app.listen(3000, function(){
     console.log("Server is running on port 3000");
