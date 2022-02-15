@@ -126,6 +126,20 @@ app.put("/update/:productTitle", function(req, res){
     )
 })
 
+app.patch("/update/:productTitle",function(req, res){
+    Product.findOneAndUpdate(
+        {productName: req.params.productTitle},
+        {$set: req.body},
+        function(err){
+            if(!err){
+                res.send("Succesfully updated Product");
+            }else{
+                res.send(err);
+            }
+        }
+    )
+})
+
 app.listen(3000, function(){
     console.log("Server is running on port 3000");
 })
