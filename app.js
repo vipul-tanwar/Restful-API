@@ -42,7 +42,7 @@ app.get("/readall", function(req, res){
 })
 
 //Read product
-app.get("/read/:productTitle", function(req, res){
+app.get("/read/:productTitle", (req, res) => {
     Product.findOne({productName: req.params.productTitle}).populate('categoryId').exec(function(err, foundProduct){
         if(foundProduct){
             res.send(foundProduct);
@@ -53,7 +53,7 @@ app.get("/read/:productTitle", function(req, res){
 })
 
 //Post product
-app.post("/create", function(req, res){
+app.post("/create", (req, res) => {
 
     const newCategory = new Category({
         categoryName : req.body.categoryName,
@@ -111,7 +111,7 @@ app.post("/create", function(req, res){
 })
 
 //Update product by PUT request
-app.put("/update/:productTitle", function(req, res){
+app.put("/update/:productTitle", (req, res) => {
     Product.updateOne(
         {productName: req.params.productTitle},
         {
@@ -134,7 +134,7 @@ app.put("/update/:productTitle", function(req, res){
 })
 
 //Update product by PATCH request
-app.patch("/update/:productTitle",function(req, res){
+app.patch("/update/:productTitle", (req, res) =>{
     Product.findOneAndUpdate(
         {productName: req.params.productTitle},
         {$set: req.body},
@@ -149,7 +149,7 @@ app.patch("/update/:productTitle",function(req, res){
 })
 
 //Delete product by product name
-app.delete("/delete/:productTitle", function(req, res){
+app.delete("/delete/:productTitle", (req, res) => {
     Product.deleteOne({productName: req.params.productTitle}, function(err){
         if(!err){
             res.send("Successfully deleted the Product");
@@ -162,7 +162,7 @@ app.delete("/delete/:productTitle", function(req, res){
 //Category Routes
 
 //Read all category
-app.get("/readall/category", function(req, res){
+app.get("/readall/category", (req, res) => {
     Category.find(function(err, foundCategory){
         if(!err){
             res.send(foundCategory);
@@ -173,7 +173,7 @@ app.get("/readall/category", function(req, res){
 })
 
 //Read category
-app.get("/read/category/:categoryTitle", function(req, res){
+app.get("/read/category/:categoryTitle", (req, res) => {
     Category.findOne({categoryName: req.params.categoryTitle}, function(err, foundProduct){
         if(foundProduct){
             res.send(foundProduct);
@@ -184,7 +184,7 @@ app.get("/read/category/:categoryTitle", function(req, res){
 })
 
 //Post category
-app.post('/create/category/:categoryTitle', function(req, res){
+app.post('/create/category/:categoryTitle', (req, res) => {
     const newCategory = new Category({
         categoryName : req.params.categoryTitle,
     })
@@ -198,7 +198,7 @@ app.post('/create/category/:categoryTitle', function(req, res){
 })
 
 //Update category by PUT request
-app.put("/update/category/:categoryTitle", function(req, res){
+app.put("/update/category/:categoryTitle", (req, res) => {
     Category.updateOne(
         {categoryName: req.params.categoryTitle},
         {categoryName: req.body.categoryName},
@@ -214,7 +214,7 @@ app.put("/update/category/:categoryTitle", function(req, res){
 })
 
 //Update category by PATCH request
-app.patch("/update/category/:categoryTitle",function(req, res){
+app.patch("/update/category/:categoryTitle", (req, res) => {
     Category.findOneAndUpdate(
         {categoryName: req.params.categoryTitle},
         {$set: req.body},
@@ -229,7 +229,7 @@ app.patch("/update/category/:categoryTitle",function(req, res){
 })
 
 //Delete categoy by category name
-app.delete("/delete/category/:categoryTitle", function(req, res){
+app.delete("/delete/category/:categoryTitle", (req, res) => {
     Category.deleteOne({categoryName: req.params.categoryTitle}, function(err){
         if(!err){
             res.send("Successfully deleted the Category");
@@ -239,6 +239,6 @@ app.delete("/delete/category/:categoryTitle", function(req, res){
     })
 })
 
-app.listen(3000, function(){
+app.listen(3000, () => {
     console.log("Server is running on port 3000");
 })
