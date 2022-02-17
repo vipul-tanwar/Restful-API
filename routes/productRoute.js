@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const {Product, Category} = require("../models/products")
+const _ = require("lodash");
 
 const productRoute = express.Router();
 
@@ -18,7 +19,8 @@ productRoute.get("/readall", function(req, res){
 
 //Read product
 productRoute.get("/read/:productTitle", (req, res) => {
-    Product.findOne({productName: req.params.productTitle}).populate('categoryId').exec(function(err, foundProduct){
+    const requestPost = _.capitalize(req.params.productTitle);
+    Product.findOne({productName: requestPost}).populate('categoryId').exec(function(err, foundProduct){
         if(foundProduct){
             res.send(foundProduct);
         }else{
@@ -87,8 +89,9 @@ productRoute.post("/create", (req, res) => {
 
 //Update product by PUT request
 productRoute.put("/update/:productTitle", (req, res) => {
+    const requestPost = _.capitalize(req.params.productTitle);
     Product.updateOne(
-        {productName: req.params.productTitle},
+        {productName: requestPost},
         {
             productName : req.body.productName,		
             qtyPerUnit : req.body.qtyPerUnit,		
@@ -110,8 +113,9 @@ productRoute.put("/update/:productTitle", (req, res) => {
 
 //Update product by PATCH request
 productRoute.patch("/update/:productTitle", (req, res) =>{
+    const requestPost = _.capitalize(req.params.productTitle);
     Product.findOneAndUpdate(
-        {productName: req.params.productTitle},
+        {productName: requestPost},
         {$set: req.body},
         function(err){
             if(!err){
@@ -125,7 +129,8 @@ productRoute.patch("/update/:productTitle", (req, res) =>{
 
 //Delete product by product name
 productRoute.delete("/delete/:productTitle", (req, res) => {
-    Product.deleteOne({productName: req.params.productTitle}, function(err){
+    const requestPost = _.capitalize(req.params.productTitle);
+    Product.deleteOne({productName: requestPost}, function(err){
         if(!err){
             res.send("Successfully deleted the Product");
         }else{
